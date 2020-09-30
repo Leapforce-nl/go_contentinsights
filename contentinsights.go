@@ -80,6 +80,7 @@ func (ci *ContentInsights) Get(path string, queryParams *url.Values, model inter
 func (ci *ContentInsights) GetURL(url string, model interface{}) (*Paging, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
+		fmt.Println(url)
 		return nil, err
 	}
 	req.Header.Set("Accept", "application/json")
@@ -88,6 +89,7 @@ func (ci *ContentInsights) GetURL(url string, model interface{}) (*Paging, error
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
+		fmt.Println(url)
 		return nil, err
 	}
 
@@ -95,6 +97,7 @@ func (ci *ContentInsights) GetURL(url string, model interface{}) (*Paging, error
 
 	b, err := ioutil.ReadAll(res.Body)
 	if err != nil {
+		fmt.Println(url)
 		return nil, err
 	}
 
@@ -102,11 +105,13 @@ func (ci *ContentInsights) GetURL(url string, model interface{}) (*Paging, error
 
 	err = json.Unmarshal(b, &response)
 	if err != nil {
+		fmt.Println(url)
 		return nil, err
 	}
 
 	err = json.Unmarshal(response.Data, &model)
 	if err != nil {
+		fmt.Println(url)
 		return nil, err
 	}
 
