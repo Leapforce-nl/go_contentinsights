@@ -69,6 +69,7 @@ func (ci *ContentInsights) GetArticleStats(dateFrom civil.Date, dateTo civil.Dat
 	values.Set("dimension", "article")
 	values.Set("date_from", dateFrom.String())
 	values.Set("date_to", dateTo.String())
+	values.Set("limit", "1000")
 	if withChildren {
 		values.Set("with_children", "1")
 	} else {
@@ -88,6 +89,7 @@ func (ci *ContentInsights) GetArticleStats(dateFrom civil.Date, dateTo civil.Dat
 		_articleStats := []ArticleStat{}
 
 		paging, err = ci.GetURL(*paging.Next, &_articleStats)
+
 		if err != nil {
 			fmt.Println("ERROR in GetArticleStats:", err)
 			fmt.Println("url:", *paging.Next)

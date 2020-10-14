@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 
 	types "github.com/Leapforce-nl/go_types"
 )
@@ -91,6 +92,13 @@ func (ci *ContentInsights) GetURL(url string, model interface{}) (*Paging, error
 	if err != nil {
 		fmt.Println(url)
 		return nil, err
+	}
+
+	if res.StatusCode == 503 {
+		//wait 1 minute, see: https://docs.contentinsights.com/help/api-respones-rate-limiting
+		time.Sleep(time.Minute)
+
+		return ci.GetURL(url, model)
 	}
 
 	defer res.Body.Close()
